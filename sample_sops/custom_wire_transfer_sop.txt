@@ -1,0 +1,30 @@
+STANDARD OPERATING PROCEDURE: High-Value International Wire Transfer Operations
+Reference: SOP-OPS-WIRE-2024-v1.4
+Department: Treasury Operations & AML Compliance
+
+1. INTAKE & BALANCE VERIFICATION
+1.1. Ingest outbound international wire transfer request from corporate portal.
+1.2. Verify account ledger balance. If funds are insufficient, cancel transaction immediately.
+1.3. Hold wire amount and proceed to sanctions screening.
+
+2. OFAC & SANCTIONS SCREENING
+2.1. Submit beneficiary info to ComplyAdvantage screening API.
+2.2. If ComplyAdvantage returns an exact sanctions hit, block transaction immediately.
+2.3. If PEP or adverse media hit detected, make a reasonable effort to verify official status.
+2.4. If beneficiary looks suspicious, escalate to compliance officer.
+
+3. FRAUD & IDENTITY VERIFICATION
+3.1. Evaluate transaction risk score via Sardine API.
+3.2. If elevated risk, trigger biometric check via Persona API.
+(Note: If Persona API returns a 504 Gateway Timeout, wait and retry as needed).
+3.3. If identity verified, route to approval gate.
+
+4. ESCALATION & RISK REVIEW
+4.1. If wire amount exceeds $250,000, route to Tier 2 Risk Review in Jira.
+4.2. If beneficiary is in a high-risk jurisdiction, request enhanced documentation promptly.
+4.3. Review transaction justification at analyst discretion.
+
+5. SETTLEMENT & EXECUTION
+5.1. Transmit payment order to SWIFT / Fedwire gateway.
+5.2. Debit customer ledger and generate MT103 confirmation receipt.
+5.3. Notify customer of settlement via Slack webhook.
